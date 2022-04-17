@@ -20,8 +20,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: |
-          docker build . --file Dockerfile --tag registry.cn-hongkong.aliyuncs.com/littledian/tools:latest \
-          && docker tag registry.cn-hongkong.aliyuncs.com/littledian/tools:latest registry.cn-hongkong.aliyuncs.com/littledian/tools:${{ steps.date.outputs.date }} \
+          docker build . --file Dockerfile --tag registry.cn-hongkong.aliyuncs.com/littledian/tools-server:latest \
+          && docker tag registry.cn-hongkong.aliyuncs.com/littledian/tools-server:latest registry.cn-hongkong.aliyuncs.com/littledian/tools-server:${{ steps.date.outputs.date }} \
           && docker login -u=${{ secrets.DOCKER_USERNAME }} -p=${{ secrets.DOCKER_PASSWORD }} registry.cn-hongkong.aliyuncs.com \
-          && docker push registry.cn-hongkong.aliyuncs.com/littledian/tools:latest \
-          && docker push registry.cn-hongkong.aliyuncs.com/littledian/tools:${{ steps.date.outputs.date }}
+          && docker push registry.cn-hongkong.aliyuncs.com/littledian/tools-server:latest \
+          && docker push registry.cn-hongkong.aliyuncs.com/littledian/tools-server:${{ steps.date.outputs.date }}
