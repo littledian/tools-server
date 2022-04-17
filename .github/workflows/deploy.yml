@@ -1,0 +1,28 @@
+name: deploy
+on:
+  workflow_run:
+    workflows: ["build"]
+    types:
+      - completed
+jobs:
+  delpoy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH Remote deploy
+        uses: docker://evaneos/ssh-action:0.1.0
+        with:
+          hosts: 47.99.66.0
+          user: ${{ secrets.REMOTE_USERNAME }}
+          password: ${{ secrets.REMOTE_PASSWORD }}
+          commands: |
+            have=$(docker inspect --format='{{.Name}}' $(docker ps -aq) | grep tools  | cut -d"/" -f2)
+            if [[ "$have" == tools ]]; then \
+              docker container stop tools; \
+              docker container rm tools; \
+            fi
+            docker rmi registry.cn-hongkong.aliyuncs.com/littledian/tools:latest
+            docker run \
+              -p 3000:3000 \
+              --name tools \
+              --restart always \
+              -d registry.cn-hongkong.aliyuncs.com/littledian/tools:latest
