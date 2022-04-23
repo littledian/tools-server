@@ -35,4 +35,15 @@ export class UtilsController {
       return this.httpService.error(e);
     }
   }
+
+  @Post('/md5')
+  md5(@Body('data') data) {
+    if (typeof data !== 'string')
+      return this.httpService.error('请求参数不正确');
+    try {
+      return this.httpService.success(this.encryptionService.md5(data));
+    } catch (e) {
+      return this.httpService.error(e);
+    }
+  }
 }

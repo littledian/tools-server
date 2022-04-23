@@ -1,4 +1,5 @@
 import {
+  createHash,
   scryptSync,
   randomUUID,
   randomFillSync,
@@ -55,6 +56,12 @@ export class EncryptionService {
       decipher.write(s, 'hex');
       decipher.end();
     });
+  }
+
+  md5(s: string) {
+    const md5 = createHash('md5');
+    md5.update(s);
+    return md5.digest('hex').toUpperCase();
   }
 
   private updateKeyAndIv() {
