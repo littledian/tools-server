@@ -1,4 +1,4 @@
-FROM node:16.14.2-alpine3.15 AS development
+FROM node:16.14.2-alpine3.15 AS builder
 
 WORKDIR /usr/src/app
 
@@ -20,6 +20,6 @@ COPY package.json ./
 RUN npm set-script prepare ""
 RUN npm install --only=production
 COPY . .
-COPY --from=development /usr/src/app/dist ./dist
+COPY --from=builder /usr/src/app/dist ./dist
 
 CMD ["node", "dist/main"]
